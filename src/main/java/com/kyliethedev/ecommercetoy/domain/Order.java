@@ -1,5 +1,6 @@
 package com.kyliethedev.ecommercetoy.domain;
 
+import com.kyliethedev.ecommercetoy.domain.Member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -1,8 +1,10 @@
-package com.kyliethedev.ecommercetoy.domain;
+package com.kyliethedev.ecommercetoy.domain.Member;
 
+import com.kyliethedev.ecommercetoy.domain.Address;
+import com.kyliethedev.ecommercetoy.domain.Order;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,9 +28,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
-    // Setter
-    public void setId(long id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setAddress(Address address) { this.address = address; }
-    public void setOrders(List<Order> orders) { this.orders = orders; }
+    @Builder
+    public Member(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
 }

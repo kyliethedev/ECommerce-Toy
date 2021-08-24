@@ -1,18 +1,23 @@
 package com.kyliethedev.ecommercetoy.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 
 @Getter
+@NoArgsConstructor
 @Embeddable
 public class Address {
     private String city;
     private String street;
     private String zipcode;
 
-    // Setter
-    public void setCity(String city) { this.city = city; }
-    public void setStreet(String street) { this.street = street; }
-    public void setZipcode(String zipcode) { this.zipcode = zipcode; }
+    @Builder
+    public Address(String city, String street, String zipcode) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+    }
 }
