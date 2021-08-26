@@ -29,7 +29,7 @@ public class Member {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    public Member(String name, Address address) {
+    private Member(String name, Address address) {
         this.name = name;
         this.address = address;
     }

@@ -1,15 +1,17 @@
 package com.kyliethedev.ecommercetoy.domain.item;
 
 import com.kyliethedev.ecommercetoy.domain.Category;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE")
 @Entity
@@ -21,11 +23,14 @@ public abstract class Item {
     private Long id;
 
     private String name;
+
     private int price;
+
     private int stockQuantity;
 
+    @Singular
     @ManyToMany(mappedBy = "items")
-    private List<Category> categories = new ArrayList<Category>();
+    private List<Category> categories;
 
     // Setter
     public void setId(Long id) { this.id = id; }

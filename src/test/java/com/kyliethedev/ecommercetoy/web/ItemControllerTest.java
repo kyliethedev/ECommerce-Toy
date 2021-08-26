@@ -1,10 +1,8 @@
 package com.kyliethedev.ecommercetoy.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kyliethedev.ecommercetoy.domain.Address;
-import com.kyliethedev.ecommercetoy.domain.Member.Member;
-import com.kyliethedev.ecommercetoy.domain.Member.MemberRepository;
-import com.kyliethedev.ecommercetoy.web.dto.Member.MemberSignUpRequestDto;
+import com.kyliethedev.ecommercetoy.domain.item.ItemRepository;
+import com.kyliethedev.ecommercetoy.web.dto.Item.ItemSaveRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,22 +16,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MemberControllerTest {
+public class ItemControllerTest {
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private ItemRepository itemRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -49,42 +44,33 @@ public class MemberControllerTest {
 
     @AfterEach
     public void tearDown() throws Exception {
-        memberRepository.deleteAll();
+        itemRepository.deleteAll();
     }
 
     @Test
-    public void memberSignUp() throws Exception {
+    public void itemSave() {
         //given
-        String name = "test";
-        String city = "seoul";
-        String street = "olympic-ro";
-        String zipcode = "12345";
+        String name = "name";
+        int price = 1000;
+        int stockQuantity = 5;
+        String artist = "artist";
+        String etc = "etc";
 
-        Address address = Address.builder()
-                .city(city)
-                .street(street)
-                .zipcode(zipcode)
-                .build();
-
-        MemberSignUpRequestDto requestDto = MemberSignUpRequestDto.builder()
+        ItemSaveRequestDto requestDto = ItemSaveRequestDto.builder()
                 .name(name)
-                .address(address)
+                .price(price)
+                .stockQuantity(stockQuantity)
                 .build();
 
-        String url = "http://localhost:" + port + "/api/v1/member";
+        String url = "http://localhost:" + port + "/api/v1/item";
 
         //when
-        mockMvc.perform(post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(requestDto)))
-                .andDo(print())
-                .andExpect(status().isOk());
+//        mockMvc.perform(post(url)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(new ObjectMapper().writeValueAsString(requestDto))
+//                .andDo(print())
+//                .andExpect(status().isOk()));
 
         //then
-        List<Member> members = memberRepository.findAll();
-        assertThat(members.get(0).getName()).isEqualTo(name);
-        assertThat(members.get(0).getAddress().getCity()).isEqualTo(city);
-        assertThat(members.get(0).getAddress().getStreet()).isEqualTo(street);
-        assertThat(members.get(0).getAddress().getZipcode()).isEqualTo(zipcode);
     }
 }
